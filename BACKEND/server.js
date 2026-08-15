@@ -4,16 +4,25 @@ const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const dotenv = require("dotenv");
+const passport = require("passport");
 const app = express();
 
 require("dotenv").config();
+require("./passport");
 
 //available port number assign
 const PORT = process.env.PORT || 8070;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 //connection
 const URL = process.env.MONGODB_URL;
@@ -32,19 +41,19 @@ connection.once("open", () => {
 });
 
 //import routes file(add user)
-const userRouter = require("./Routes/user/userdetails.js");
+const userRouter = require("./routes/user/userdetails.js");
 app.use("/user", userRouter);
 
-const router = require("./Routes/user/loyaltypoints");
+const router = require("./routes/user/loyaltypoints");
 app.use("/points", router);
 
-const marketplaceRouter = require("./Routes/marketplace/requestpools");
+const marketplaceRouter = require("./routes/marketplace/requestpools");
 app.use("/marketplace", marketplaceRouter);
 
-const orderRouter = require("./Routes/marketplace/orders");
+const orderRouter = require("./routes/marketplace/orders");
 app.use("/order", orderRouter);
 
-const routereqRouter = require("./Routes/pickup/routerequests");
+const routereqRouter = require("./routes/pickup/routerequests");
 app.use("/routeReq", routereqRouter);
 
 const routeOrderRouter = require("./routes/pickup/routeorders");
@@ -54,27 +63,27 @@ const received = require("./routes/pickup/receiveditems");
 app.use("/receivedItem", received);
 
 //Import Routes (Freelance Driver)
-const driverRouter = require("./Routes/delivery/freelancedrivers");
+const driverRouter = require("./routes/delivery/freelancedrivers");
 app.use("/driver", driverRouter);
 
 //(TripDetails)
-const tripDetailsRouter = require("./Routes/delivery/ongoingdeliverys");
+const tripDetailsRouter = require("./routes/delivery/ongoingdeliverys");
 app.use("/trip", tripDetailsRouter);
 
 //(DeliveryDetails)
-const deliveryDetailsRouter = require("./Routes/delivery/deliverydetails");
+const deliveryDetailsRouter = require("./routes/delivery/deliverydetails");
 app.use("/delivery", deliveryDetailsRouter);
 
 //Import Routes(Item)
-const item = require("./Routes/recyclefacility/items");
+const item = require("./routes/recyclefacility/items");
 app.use("/item",item);
 
 //Import Routes(company)
-const Company = require("./Routes/recyclefacility/recyclecompanies");
+const Company = require("./routes/recyclefacility/recyclecompanies");
 app.use("/Company",Company);
 
 //Import Routes(company item)
-const CompanyItem = require("./Routes/recyclefacility/companyitems");
+const CompanyItem = require("./routes/recyclefacility/companyitems");
 app.use("/CompanyItem",CompanyItem);
 
 //import routes
@@ -110,6 +119,24 @@ app.use("/salarys",salRouter);
 
 const comRouter = require("./routes/payment/companybuys.js");
 app.use("/companybuys",comRouter);
+
+const eWastePickupRouter = require("./routes/ewaste/pickups");
+app.use("/ewaste/pickups", eWastePickupRouter);
+
+const eWasteRecyclerRouter = require("./routes/ewaste/recyclers");
+app.use("/ewaste/recyclers", eWasteRecyclerRouter);
+
+const eWasteNotificationRouter = require("./routes/ewaste/notifications");
+app.use("/ewaste/notifications", eWasteNotificationRouter);
+
+const eWasteAwarenessRouter = require("./routes/ewaste/awareness");
+app.use("/ewaste/awareness", eWasteAwarenessRouter);
+
+const eWasteCentreRouter = require("./routes/ewaste/centres");
+app.use("/ewaste/centres", eWasteCentreRouter);
+
+const eWasteChatbotRouter = require("./routes/ewaste/chatbot");
+app.use("/ewaste/chatbot", eWasteChatbotRouter);
 
 //const marketplaceRouter = require("./Routes/marketplace/requestpools");
 //app.use("/marketplace", marketplaceRouter);

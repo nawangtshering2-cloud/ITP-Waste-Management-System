@@ -1,0 +1,236 @@
+.ewaste-navbar {
+  background: linear-gradient(90deg, #0f2a24, #0e4d36 55%, #163a6e);
+  box-shadow: 0 12px 30px rgba(10, 32, 23, 0.24);
+}
+
+.ewaste-brand {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.ewaste-page {
+  padding: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.ewaste-page--narrow {
+  max-width: 920px;
+}
+
+.ewaste-hero {
+  min-height: calc(100vh - 88px);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  color: #f5fff8;
+  background:
+    radial-gradient(circle at top left, rgba(91, 193, 139, 0.35), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(28, 78, 136, 0.38), transparent 24%),
+    linear-gradient(145deg, #071611, #0c2b22 55%, #0b1320);
+}
+
+.ewaste-hero h1 {
+  font-size: clamp(2.8rem, 5vw, 4.8rem);
+  font-weight: 800;
+  line-height: 0.95;
+  margin: 0.5rem 0 1rem;
+}
+
+.ewaste-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: #92e6ba;
+}
+
+.ewaste-hero__actions,
+.ewaste-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ewaste-hero__panel {
+  display: grid;
+  gap: 1rem;
+  align-content: center;
+}
+
+.ewaste-panel-card,
+.ewaste-card,
+.ewaste-map-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(16, 67, 52, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 20px 45px rgba(13, 44, 34, 0.08);
+  padding: 1.5rem;
+}
+
+.ewaste-panel-card span,
+.ewaste-chip {
+  display: inline-flex;
+  border-radius: 999px;
+  background: #d8f3e4;
+  color: #0c553d;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.ewaste-page__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.ewaste-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ewaste-stats-grid--six {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.ewaste-stat {
+  border-radius: 18px;
+  padding: 1.2rem;
+  color: #0d1f17;
+  background: #edf5f0;
+}
+
+.ewaste-stat span {
+  display: block;
+  font-size: 0.82rem;
+  opacity: 0.76;
+}
+
+.ewaste-stat strong {
+  font-size: 1.8rem;
+}
+
+.ewaste-stat-green { background: linear-gradient(145deg, #dcf7e4, #f5fff8); }
+.ewaste-stat-amber { background: linear-gradient(145deg, #fff0d4, #fffdf7); }
+.ewaste-stat-teal { background: linear-gradient(145deg, #d8f7f0, #f7fffd); }
+.ewaste-stat-slate { background: linear-gradient(145deg, #e4ecf7, #fbfcff); }
+
+.ewaste-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ewaste-card-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ewaste-action-links {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.ewaste-action-links a {
+  color: #0b5d43;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ewaste-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(22, 52, 44, 0.1);
+}
+
+.ewaste-list-row--stacked {
+  align-items: flex-start;
+}
+
+.ewaste-locator-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 1rem;
+}
+
+.ewaste-map {
+  height: 580px;
+  border-radius: 18px;
+}
+
+.ewaste-form label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.ewaste-tracking {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.ewaste-notification {
+  padding: 1rem;
+  border-radius: 14px;
+  background: #f4faf6;
+  margin-bottom: 0.75rem;
+}
+
+.ewaste-notification.is-read {
+  opacity: 0.72;
+}
+
+.ewaste-chatbox {
+  display: grid;
+  gap: 0.75rem;
+  min-height: 320px;
+  max-height: 380px;
+  overflow: auto;
+  padding: 1rem;
+  background: #f5faf7;
+  border-radius: 18px;
+}
+
+.ewaste-chatbubble {
+  max-width: 80%;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+}
+
+.ewaste-chatbubble.user {
+  margin-left: auto;
+  background: #104736;
+  color: #fff;
+}
+
+.ewaste-chatbubble.bot {
+  background: #dfeee7;
+  color: #103227;
+}
+
+.ewaste-article small {
+  display: block;
+  color: #4f625a;
+}
+
+@media (max-width: 992px) {
+  .ewaste-hero,
+  .ewaste-page__header,
+  .ewaste-locator-layout,
+  .ewaste-card-grid,
+  .ewaste-card-grid--three,
+  .ewaste-stats-grid,
+  .ewaste-stats-grid--six {
+    grid-template-columns: 1fr;
+  }
+
+  .ewaste-hero {
+    min-height: auto;
+  }
+}

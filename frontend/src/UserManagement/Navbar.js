@@ -6,188 +6,55 @@ import { AuthContext } from "../Context/AuthContext";
 const Navbar = (props) => {
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
     useContext(AuthContext);
+  const role = String(user && user.role ? user.role : "").toLowerCase();
 
   const onClickLogoutHandler = () => {
     AuthService.logout().then((data) => {
       if (data.success) {
-        setUser(data.user);
+        setUser(data.user || { _id: "", username: "", name: "", role: "" });
         setIsAuthenticated(false);
       }
     });
   };
 
-
-  const unauthenticatedNavBar = () => {
-    return (
-      <>
-        <Link to="/">
-          <li className="nav-item nav-link text-white">Home</li>
-        </Link>
-        <Link to="/login">
-          <li className="nav-item nav-link text-white">Login</li>
-        </Link>
-        <Link to="/register">
-          <li className="nav-item nav-link text-white">Register</li>
-        </Link>
-      </>
-    );
-  };
-
-    const authenticatedNavBar = ()=>{
-        return(
-            <>
-                <Link to="/">
-                    <li className="nav-item nav-link text-white">
-                        Home
-                    </li>
-                </Link>
-                <Link to="/clientprofile/:id">
-                    <li className="nav-item nav-link text-white">
-                        My Profile
-                    </li>
-                </Link>
-                {
-                user.role === "admin" ? 
-                <Link to="/profiles">
-                    <li className="nav-item nav-link text-white">
-                        Registered Users
-                    </li>
-                </Link> : null
-                }
-                    <Link to={`/driver/${user._id}/reg`}>
-                        <li className="nav-item nav-link text-white " style={{marginRight:'5vh',marginLeft:'43vh'}}>
-                            Driver Register
-                        </li>
-                    </Link>
-                    <Link to="/itemlist">
-                        <li className="nav-item nav-link text-white ">
-                            Marketplace
-                        </li>
-                        </Link>
-                    <span>{user.role === "User" ?
-                        <h4 className="nav-item nav-link text-white" >
-                            Welcome&nbsp;{user.name}
-                        </h4>:null}
-                    </span>
-                    <span>{user.role === "admin" ?
-                        <li className="nav-item nav-link text-white ">
-                            Administrator&nbsp;{user.name}
-                        </li>:null}
-                    </span>
-                    <li class="nav-item">
-                <button type="button"
-                        className="btn btn-link nav-item nav-link text-white" 
-
-
-                        onClick={onClickLogoutHandler} style={{marginRight:'1.5vh',marginLeft:'4.5vh'}} >Logout</button></li>&nbsp;&nbsp;
-
-                           <div>     <li class="nav-item"  ><a href="#" class="text-white "><i class="fas fa-user text-white"></i>&nbsp;About us</a></li>
-                                &nbsp;
-                                &nbsp;
-                                <li class="nav-item"><a href="#" class="text-white "><i className="fas fa-envelope text-white" />&nbsp;Contact us</a></li>
-                                </div>
-            </>
-        )
-    }
-    return(
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4 pb-4 pt-4 " style={{marginRight:'-19.5vh',marginLeft:'-19.5vh', height:"15vh"}}>
-            <div className="container-fluid" id="nav">
-            <Link to="/">
-                <div className="navbar-brand" style={{marginLeft:'20vh'}}><h2>ecoBin</h2></div>
-            </Link>
-            <div className="collapse navbar-collapse" id="navbarText">
-                <ul className="navbar-nav mr-auto">
-                    { !isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
-                </ul>
-            </div>
-            </div>
-        </nav>
-    )
-}
-
-
-  const authenticatedNavBar = () => {
-    return (
-      <>
-        <Link to="/">
-          <li className="nav-item nav-link text-white">Home</li>
-        </Link>
-        <Link to="/clientprofile/:id">
-          <li className="nav-item nav-link text-white">My Profile</li>
-        </Link>
-        {user.role === "admin" ? (
-          <Link to="/profiles">
-            <li className="nav-item nav-link text-white">Registered Users</li>
-          </Link>
-        ) : null}
-        <Link to="/profiles">
-          <li
-            className="nav-item nav-link text-white "
-            style={{ marginRight: "5vh", marginLeft: "43vh" }}
-          >
-            Driver Register
-          </li>
-        </Link>
-        <Link to="/itemlist">
-          <li className="nav-item nav-link text-white ">Marketplace</li>
-        </Link>
-        <span>
-          {user.role === "User" ? (
-            <h4 className="nav-item nav-link text-white">
-              Welcome&nbsp;{user.name}
-            </h4>
-          ) : null}
-        </span>
-        <span>
-          {user.role === "admin" ? (
-            <li className="nav-item nav-link text-white ">
-              Administrator&nbsp;{user.name}
-            </li>
-          ) : null}
-        </span>
-        <li class="nav-item">
-          <button
-            type="button"
-            className="btn btn-link nav-item nav-link text-white"
-            onClick={onClickLogoutHandler}
-            style={{ marginRight: "1.5vh", marginLeft: "4.5vh" }}
-          >
-            Logout
-          </button>
-        </li>
-        &nbsp;&nbsp;
-        <div>
-          {" "}
-          <li class="nav-item">
-            <a href="#" class="text-white ">
-              <i class="fas fa-user text-white"></i>&nbsp;About us
-            </a>
-          </li>
-          &nbsp; &nbsp;
-          <li class="nav-item">
-            <a href="#" class="text-white ">
-              <i className="fas fa-envelope text-white" />
-              &nbsp;Contact us
-            </a>
-          </li>
-        </div>
-      </>
-    );
-  };
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark bg-dark mb-4 pb-4 pt-4 "
-      style={{ marginRight: "-19.5vh", marginLeft: "-19.5vh", height: "15vh" }}
-    >
-      <div className="container-fluid" id="nav">
-        <Link to="/">
-          <div className="navbar-brand" style={{ marginLeft: "20vh" }}>
-            <h2>ecoBin</h2>
-          </div>
+    <nav className="navbar navbar-expand-lg navbar-dark ewaste-navbar">
+      <div className="container-fluid px-4">
+        <Link to="/" className="navbar-brand ewaste-brand">
+          <span>E-Waste Management System</span>
         </Link>
-        <div className="collapse navbar-collapse" id="navbarText">
-          <ul className="navbar-nav mr-auto">
-            {!isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#ewasteNavbar"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="ewasteNavbar">
+          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+            {!isAuthenticated ? (
+              <>
+                <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/awareness">Awareness</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/recyclers">Recyclers</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li>
+                <li className="nav-item"><Link className="btn btn-outline-light btn-sm ms-lg-2" to="/register">Register</Link></li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/pickup/new">Request Pickup</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/pickup/track">Track Pickup</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/recyclers">Recyclers</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/awareness">Awareness</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/notifications">Notifications</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/chatbot">EcoBot</Link></li>
+                {role === 'admin' ? <li className="nav-item"><Link className="nav-link" to="/admin/dashboard">Admin</Link></li> : null}
+                <li className="nav-item text-white small d-none d-lg-block">{user.name ? `Hi, ${user.name}` : 'Account'}</li>
+                <li className="nav-item"><button type="button" className="btn btn-light btn-sm" onClick={onClickLogoutHandler}>Logout</button></li>
+              </>
+            )}
           </ul>
         </div>
       </div>

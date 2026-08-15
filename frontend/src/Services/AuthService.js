@@ -1,9 +1,9 @@
 
 export default {
     login : user =>{
-        console.log(user);
         return fetch('/user/login',{
             method : "post",
+            credentials: 'include',
             body : JSON.stringify(user),
             headers : {
                 'Content-Type' : 'application/json'
@@ -16,9 +16,9 @@ export default {
         })
     },
     register : user =>{
-        console.log(user);
         return fetch('/user/register',{
             method : "post",
+            credentials: 'include',
             body : JSON.stringify(user),
             headers : {
                 'Content-Type' : 'application/json'
@@ -27,12 +27,12 @@ export default {
           .then(data => data);
     },
     logout : ()=>{
-        return fetch('/user/logout')
+        return fetch('/user/logout', { credentials: 'include' })
                 .then(res => res.json())
                 .then(data => data);
     },
     isAuthenticated : ()=>{
-        return fetch('/user/authenticated')
+        return fetch('/user/authenticated', { credentials: 'include' })
                 .then(res=>{
                     if(res.status !== 401)
                         return res.json().then(data => data);

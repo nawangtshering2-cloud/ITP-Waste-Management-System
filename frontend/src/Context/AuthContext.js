@@ -4,13 +4,14 @@ import AuthService from '../Services/AuthService';
 export const AuthContext = createContext();
 
 export default ({ children })=>{
-    const [user,setUser] = useState(null);
+    const defaultUser = { _id: '', username: '', name: '', phone: '', email: '', nic: '', gender: '', role: '', status: '' };
+    const [user,setUser] = useState(defaultUser);
     const [isAuthenticated,setIsAuthenticated] = useState(false);
     const [isLoaded,setIsLoaded] = useState(false);
 
     useEffect(()=>{
         AuthService.isAuthenticated().then(data =>{
-            setUser(data.user);
+            setUser(data.user || defaultUser);
             setIsAuthenticated(data.isAuthenticated);
             setIsLoaded(true);
         });

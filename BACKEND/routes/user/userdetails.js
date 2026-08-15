@@ -5,25 +5,26 @@ const passportConfig = require('../../passport');
 const JWT = require('jsonwebtoken');
 let User = require("../../Models/User/UserDetail");
 const { findById } = require('../../Models/User/UserDetail');
+const { normalizeRole, authorizeRoles } = require('../../middleware/authorization');
 
 
 const signToken = userID =>{
   return JWT.sign({
       iss : "ecobin",
       sub : userID
-  },"ecobin",{expiresIn : "1h"});
+  },process.env.JWT_SECRET || "ecobin",{expiresIn : process.env.JWT_EXPIRES_IN || "1h"});
 }
 
 //Add user details
 userRouter.post('/register',(req,res)=>{
-  const { name,username,phone,email,nic,gender,password,img } = req.body;
+  const { name,username,phone,email,nic,gender,password,img, role } = req.body;
   User.findOne({username},(err,user)=>{
       if(err)
           res.status(500).json({message : {msgBody : "Error has occured", msgError: true}});
       if(user)
           res.status(400).json({message : {msgBody : "Username is already taken", msgError: true}});
       else{
-          const newUser = new User({name,username,phone,email,nic,gender,password,img});
+      const newUser = new User({name,username,phone,email,nic,gender,password,img, role: role || 'USER'});
           newUser.save(err=>{
               if(err)
                   res.status(500).json({message : {msgBody : "Error has occured", msgError: true}});
@@ -36,7 +37,17 @@ userRouter.post('/register',(req,res)=>{
 
 //Display user details
 userRouter.get("/profiles",(req, res) => {
-  User.find().exec((err,users) =>{
+  const search = req.query.search ? req.query.search.trim() : "";
+  const query = search
+    ? {
+        $or: [
+          { name: new RegExp(search, 'i') },
+          { username: new RegExp(search, 'i') },
+          { email: new RegExp(search, 'i') },
+        ],
+      }
+    : {};
+  User.find(query).select("-password").exec((err,users) =>{
     if(err){
       return res.status(400).json({
         error:err
@@ -54,7 +65,7 @@ userRouter.get(`/profile/:id`,(req, res) => {
 
   let postId = req.params.id;
 
-  User.findById(postId,(err,users) =>{
+  User.findById(postId).select("-password").exec((err,users) =>{
     if(err){
       return res.status(400).json({success:false, err})
     }
@@ -116,7 +127,7 @@ userRouter.get('/logout',passport.authenticate('jwt',{session : false}),(req,res
 
 
 userRouter.get('/admin',passport.authenticate('jwt',{session : false}),(req,res)=>{
-  if(req.user.role === 'admin'){
+  if(normalizeRole(req.user.role) === 'admin'){
       res.status(200).json({message : {msgBody : 'You are an admin', msgError : false}});
   }
   else
@@ -126,7 +137,15 @@ userRouter.get('/admin',passport.authenticate('jwt',{session : false}),(req,res)
 
 userRouter.get('/authenticated',passport.authenticate('jwt',{session : false}),(req,res)=>{
   const {_id,username,name,phone,email,nic,gender,role} = req.user;
-  res.status(200).json({isAuthenticated : true, user : {_id,username,name,phone,email,nic,gender,role}});
+  res.status(200).json({isAuthenticated : true, user : {_id,username,name,phone,email,nic,gender,role,status:req.user.status}});
+});
+
+userRouter.patch('/status/:id', passport.authenticate('jwt', { session: false }), authorizeRoles(['admin']), (req, res) => {
+  const { status } = req.body;
+  User.findByIdAndUpdate(req.params.id, { $set: { status } }, { new: true, runValidators: true })
+    .select('-password')
+    .then((updatedUser) => res.status(200).json({ success: true, user: updatedUser }))
+    .catch((error) => res.status(500).json({ success: false, message: error.message }));
 });
 
 module.exports = userRouter;
