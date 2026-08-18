@@ -1,10 +1,5 @@
-body{
-
-    font-family: sans-serif;
-    background-image: url('./bg1.jpg');
-    background-position: center;
-    background-size: cover;
-    width: auto;
-    height: auto;
-    
+/* Home.css - Reset background image to allow global theme background to show */
+body {
+  background-image: none !important;
+  background-color: var(--bg-color) !important;
 }

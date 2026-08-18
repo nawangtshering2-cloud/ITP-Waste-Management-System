@@ -1,132 +1,77 @@
 import React from "react";
-import PhotoSlide from "./PhotoSlide";
+import { Link } from "react-router-dom";
 import "./HomeStyle.css";
 import Footer from "./Footer";
 
-
-
-import "../Home.css";
-
-
-
 function HomePage() {
   return (
-    <div lassName="mt-5">
-      <div className="text-center">
-        <div>
-          <PhotoSlide />
+    <div className="home-container">
+      {/* Hero Section */}
+      <div className="hero-section">
+        <div className="hero-logo-box">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z" />
+          </svg>
+        </div>
+        
+        <h1 className="hero-title">EcoDispose</h1>
+        <p className="hero-subtitle">Electronic Waste Management System — Scaffold</p>
+        <div className="hero-status">Ready</div>
+
+        <div className="hero-buttons">
+          <Link to="/login" className="btn-hero-primary">Get Started</Link>
+          <Link to="/register" className="btn-hero-secondary">Learn More</Link>
         </div>
 
-        <div className="mt-5 mb-1">
+        <div className="tech-badges">
+          <span className="tech-badge green">React 17</span>
+          <span className="tech-badge green">Bootstrap 5</span>
+          <span className="tech-badge orange">Node.js</span>
+        </div>
+      </div>
 
-          <div className="card-group">
-            <div className="card ms-4">
-              <div className="text-center pb-5">
-                {/* <img
-                  className="card-img-top"
-                  src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/128/000000/external-dollar-achievements-and-badges-flatart-icons-solid-flatarticons.png"
-                  width="120vh"
-                  height="100vh"
-                /> */}
-              </div>
-              <div className="card-body">
-                <h5 className="card-title">
-                  <b>Sell</b>
-                </h5>
-                <p className="card-text">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </p>
-              </div>
-
+      {/* Services Section */}
+      <div className="features-section">
+        <h2 className="features-title">Our Services</h2>
+        
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon-wrapper">
+              <i className="fas fa-dollar-sign"></i>
             </div>
-            <div className="card ms-4">
-              <div className="text-center pb-5">
-                {/* <img
-                  className="card-img-top"
-                  src="https://img.icons8.com/ios-filled/150/000000/shopping-cart.png"
-                  width="50px"
-                  height="100px"
-                /> */}
-              </div>
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">
-                  This card has supporting text below as a natural lead-in to
-                  additional content.
-                </p>
-              </div>
-
-            </div>
-            <div className="card ms-4">
-              <div className="text-center pb-5">
-            
-              </div>
-              <div className="card-body">
-
-                <h5 className="card-title">
-                  <b>Buy</b>
-                </h5>
-
-                <p className="card-text">
-                  This card has supporting text below as a natural lead-in to
-                  additional content.
-                </p>
-              </div>
-            </div>
-            <div className="card ms-4">
-              <div className="text-center pb-5">
-      
-              </div>
-              <div className="card-body">
-
-                <h5 className="card-title">Card title</h5>
-
-
-                <h5 className="card-title">
-                  <b>Deliver</b>
-                </h5>
-
-
-                <p className="card-text">
-                  This card has supporting text below as a natural lead-in to
-                  additional content.
-                </p>
-              </div>
-            </div>
-            <div className="card ms-4 me-4">
-              <div className="text-center pb-5">
-                {/* <img
-                  className="card-img-top"
-                  src="https://img.icons8.com/ios-filled/100/000000/recycle-sign.png"
-                  width="200px"
-                  height="100px"
-                /> */}
-              </div>
-              <div className="card-body">
-
-
-                <h5 className="card-title">
-                  <b>Recycle</b>
-                </h5>
-
-
-                <p className="card-text">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This card has even longer
-                  content than the first to show that equal height action.
-                </p>
-              </div>
-            </div>
+            <h5>Sell E-Waste</h5>
+            <p>Dispose of your electronic devices responsibly and earn rewards or loyalty points for contributing to a greener future.</p>
           </div>
 
+          <div className="feature-card">
+            <div className="feature-icon-wrapper">
+              <i className="fas fa-shopping-cart"></i>
+            </div>
+            <h5>Marketplace</h5>
+            <p>Browse and buy refurbished parts, components, and recycled electronics at sustainable prices.</p>
+          </div>
+
+          <div className="feature-card">
+            <div className="feature-icon-wrapper">
+              <i className="fas fa-truck"></i>
+            </div>
+            <h5>Pickup & Delivery</h5>
+            <p>Schedule a convenient pickup request for your bulk e-waste items and track the collection details in real time.</p>
+          </div>
+
+          <div className="feature-card">
+            <div className="feature-icon-wrapper">
+              <i className="fas fa-recycle"></i>
+            </div>
+            <h5>Recycle Facility</h5>
+            <p>Partner with top verified recycling companies to ensure clean processing of hazardous electronic components.</p>
+          </div>
         </div>
-
-        <Footer />
-
       </div>
+
+      <Footer />
     </div>
   );
 }
+
 export default HomePage;

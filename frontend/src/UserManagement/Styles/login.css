@@ -1,28 +1,51 @@
 .login {
-    min-height: 100vh;
-  }
-  
-  .logimage {
-    background-image: url('../Photos/log1.svg');
-    background-size: 600px 580px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .login-heading {
-    font-weight: 300;
-  }
-  
-  .btn-login {
-    font-size: 0.9rem;
-    letter-spacing: 0.05rem;
-    padding: 0.75rem 1rem;
-  }
+  min-height: 100vh;
+  background-color: var(--bg-color) !important;
+}
 
-  .form-cont{
-    position: absolute;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 0px 0px rgb(107, 107, 107);
-  }
+.logimage {
+  background-image: url('../Photos/log1.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.9;
+}
+
+.login-heading {
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: -0.02em;
+}
+
+.btn-login {
+  font-size: 0.95rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+}
+
+.btn-login:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.form-cont {
+  background: var(--surface-color);
+  padding: 40px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 40px rgba(30, 69, 53, 0.06);
+  border: 1px solid rgba(30, 69, 53, 0.05);
+}
+
+.form-floating label {
+  color: var(--text-secondary);
+}
+
+.form-control:focus ~ label,
+.form-control:not(:placeholder-shown) ~ label {
+  color: var(--secondary-color) !important;
+}
