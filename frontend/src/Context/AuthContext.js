@@ -14,6 +14,11 @@ export default ({ children })=>{
             setUser(data.user || defaultUser);
             setIsAuthenticated(data.isAuthenticated);
             setIsLoaded(true);
+        }).catch(err => {
+            console.error("Backend auth check failed, using fallback unauthenticated state:", err);
+            setUser(defaultUser);
+            setIsAuthenticated(false);
+            setIsLoaded(true);
         });
     },[]);
 
