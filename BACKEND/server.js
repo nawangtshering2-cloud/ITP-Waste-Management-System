@@ -1,155 +1,104 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
-const cors = require("cors");
-const dotenv = require("dotenv");
-const passport = require("passport");
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+
+const User = require('./models/User');
+const CollectionCentre = require('./models/CollectionCentre');
+
+const authRoutes = require('./routes/auth');
+const pickupRoutes = require('./routes/pickup');
+const centreRoutes = require('./routes/centres');
+
 const app = express();
 
-require("dotenv").config();
-require("./passport");
+// Middleware
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-//available port number assign
-const PORT = process.env.PORT || 8070;
+// Seed Database Function
+const seedDatabase = async () => {
+  try {
+    // 1. Seed Admin User if missing
+    const adminEmail = 'admin@ecodispose.com';
+    const existingAdmin = await User.findOne({ email: adminEmail });
+    if (!existingAdmin) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('admin123', salt);
+      await User.create({
+        name: 'System Admin',
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'admin',
+      });
+      console.log('✅ Seeded admin user: admin@ecodispose.com / admin123');
+    } else {
+      console.log('ℹ️ Admin user already exists.');
+    }
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-    credentials: true,
+    // 2. Seed Sample Collection Centres if collection is empty
+    const centreCount = await CollectionCentre.countDocuments();
+    if (centreCount === 0) {
+      const sampleCentres = [
+        {
+          centreName: 'EcoDispose Central E-Waste Facility',
+          address: '123 Green Technology Park, Sector 62',
+          city: 'Noida',
+          phone: '+91 9876543210',
+        },
+        {
+          centreName: 'CleanEarth Recycling Depot',
+          address: '45 Industrial Hub, Phase 2',
+          city: 'Delhi',
+          phone: '+91 9812345678',
+        },
+        {
+          centreName: 'Urban E-Waste Collection Hub',
+          address: '88 Cyber City Link Road',
+          city: 'Gurugram',
+          phone: '+91 9711223344',
+        },
+      ];
+      await CollectionCentre.insertMany(sampleCentres);
+      console.log('✅ Seeded 3 sample collection centres.');
+    } else {
+      console.log(`ℹ️ Collection centres already seeded (${centreCount} centres found).`);
+    }
+  } catch (error) {
+    console.error('❌ Database seeding error:', error.message);
+  }
+};
+
+// Database Connection
+const MONGODB_URL = process.env.MONGODB_URL || 'mongodb+srv://anantsinhal26_db_user:6yCIsvg8ELmuvJtkN@cluster0.lgammgl.mongodb.net/?appName=Cluster0';
+
+mongoose
+  .connect(MONGODB_URL)
+  .then(async () => {
+    console.log('✅ MongoDB Connected Successfully.');
+    await seedDatabase();
   })
-);
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(passport.initialize());
+  .catch((err) => {
+    console.error('⚠️ MongoDB Connection Error:', err.message);
+    console.log('ℹ️ Note: If Atlas credentials have expired, please update MONGODB_URL in BACKEND/.env');
+  });
 
-//connection
-const URL = process.env.MONGODB_URL;
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/pickup', pickupRoutes);
+app.use('/api/centres', centreRoutes);
 
-mongoose.connect(URL);
-
-//Open the connection
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("MongoDB Connection Succesfull");
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.send('EcoDispose API is running on port 5000');
 });
 
-//import routes file(add user)
-const userRouter = require("./routes/user/userdetails.js");
-app.use("/user", userRouter);
-
-const router = require("./routes/user/loyaltypoints");
-app.use("/points", router);
-
-const marketplaceRouter = require("./routes/marketplace/requestpools");
-app.use("/marketplace", marketplaceRouter);
-
-const orderRouter = require("./routes/marketplace/orders");
-app.use("/order", orderRouter);
-
-const routereqRouter = require("./routes/pickup/routerequests");
-app.use("/routeReq", routereqRouter);
-
-const routeOrderRouter = require("./routes/pickup/routeorders");
-app.use("/routeOrder", routeOrderRouter);
-
-const received = require("./routes/pickup/receiveditems");
-app.use("/receivedItem", received);
-
-//Import Routes (Freelance Driver)
-const driverRouter = require("./routes/delivery/freelancedrivers");
-app.use("/driver", driverRouter);
-
-//(TripDetails)
-const tripDetailsRouter = require("./routes/delivery/ongoingdeliverys");
-app.use("/trip", tripDetailsRouter);
-
-//(DeliveryDetails)
-const deliveryDetailsRouter = require("./routes/delivery/deliverydetails");
-app.use("/delivery", deliveryDetailsRouter);
-
-//Import Routes(Item)
-const item = require("./routes/recyclefacility/items");
-app.use("/item",item);
-
-//Import Routes(company)
-const Company = require("./routes/recyclefacility/recyclecompanies");
-app.use("/Company",Company);
-
-//Import Routes(company item)
-const CompanyItem = require("./routes/recyclefacility/companyitems");
-app.use("/CompanyItem",CompanyItem);
-
-//import routes
-const postRoutes = require('./routes/staff/posts');
-//route middleware
-app.use(postRoutes);
-
-//import routes
-const recordRoutes = require('./routes/staff/records');
-//route middleware
-app.use(recordRoutes);
-
-//import routes
-const attendRoutes = require('./routes/staff/attends');
-//route middleware
-app.use(attendRoutes);
-
-const vehicleRouter = require("./routes/vehicle/vehicleregisters");
-app.use("/vehicle",vehicleRouter);
-
-const repairRouter = require("./routes/vehicle/vehiclerepairs")
-app.use("/repair",repairRouter);
-
-//import routes file(add Second Test).
-const frmRouter = require("./routes/payment/formcards");
-app.use("/formcards",frmRouter);
-
-const upRouter = require("./routes/payment/userpayments.js");
-app.use("/userpayments",upRouter);
-
-const salRouter = require("./routes/payment/salarys.js");
-app.use("/salarys",salRouter);
-
-const comRouter = require("./routes/payment/companybuys.js");
-app.use("/companybuys",comRouter);
-
-const eWastePickupRouter = require("./routes/ewaste/pickups");
-app.use("/ewaste/pickups", eWastePickupRouter);
-
-const eWasteRecyclerRouter = require("./routes/ewaste/recyclers");
-app.use("/ewaste/recyclers", eWasteRecyclerRouter);
-
-const eWasteNotificationRouter = require("./routes/ewaste/notifications");
-app.use("/ewaste/notifications", eWasteNotificationRouter);
-
-const eWasteAwarenessRouter = require("./routes/ewaste/awareness");
-app.use("/ewaste/awareness", eWasteAwarenessRouter);
-
-const eWasteCentreRouter = require("./routes/ewaste/centres");
-app.use("/ewaste/centres", eWasteCentreRouter);
-
-const eWasteChatbotRouter = require("./routes/ewaste/chatbot");
-app.use("/ewaste/chatbot", eWasteChatbotRouter);
-
-//const marketplaceRouter = require("./Routes/marketplace/requestpools");
-//app.use("/marketplace", marketplaceRouter);
-
-//const routereqRouter = require("./Routes/pickup/routerequests");
-//app.use("/route", routereqRouter);
-
-//const loyaltyRouter = require("./Routes/loyaltypoints.js");
-
-//app.use("/points", loyaltyRouter);
-
-//Models
-//require("./model/Post");
-//require("./model/Comment");
-
-//app.use("/posts", require("./routes/posts"));
-
-//run in port
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`);
+  console.log(`🚀 EcoDispose Backend Server running on port ${PORT}`);
 });

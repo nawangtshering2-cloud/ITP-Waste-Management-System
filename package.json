@@ -1,0 +1,11 @@
+{
+  "name": "ecodispose-pbl",
+  "version": "1.0.0",
+  "description": "EcoDispose E-Waste Management Web App",
+  "main": "BACKEND/server.js",
+  "scripts": {
+    "start": "node BACKEND/server.js",
+    "backend": "node BACKEND/server.js",
+    "frontend": "npm start --prefix frontend"
+  }
+}
