@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import RequestPickup from './pages/RequestPickup';
 import MyRequests from './pages/MyRequests';
 import Centres from './pages/Centres';
+import Awareness from './pages/Awareness';
 import AdminPanel from './pages/AdminPanel';
 
 // Protected Route Component
@@ -58,6 +59,7 @@ function App() {
             <ProtectedRoute exact path="/request" component={RequestPickup} />
             <ProtectedRoute exact path="/myrequests" component={MyRequests} />
             <ProtectedRoute exact path="/centres" component={Centres} />
+            <ProtectedRoute exact path="/awareness" component={Awareness} />
 
             <AdminRoute exact path="/admin" component={AdminPanel} />
 
