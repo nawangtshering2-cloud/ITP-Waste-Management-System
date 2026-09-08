@@ -46,22 +46,24 @@ const AdminRoute = ({ component: Component, ...rest }) => {
 function App() {
   return (
     <Router>
-      <div className="App min-vh-100 bg-light pb-5">
+      <div className="app-wrapper w-100 min-vh-100 bg-subtle">
         <Navbar />
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          
-          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoute exact path="/request" component={RequestPickup} />
-          <ProtectedRoute exact path="/myrequests" component={MyRequests} />
-          <ProtectedRoute exact path="/centres" component={Centres} />
+        <main className="main-content w-100">
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            
+            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+            <ProtectedRoute exact path="/request" component={RequestPickup} />
+            <ProtectedRoute exact path="/myrequests" component={MyRequests} />
+            <ProtectedRoute exact path="/centres" component={Centres} />
 
-          <AdminRoute exact path="/admin" component={AdminPanel} />
+            <AdminRoute exact path="/admin" component={AdminPanel} />
 
-          <Redirect to="/" />
-        </Switch>
+            <Redirect to="/" />
+          </Switch>
+        </main>
       </div>
     </Router>
   );
