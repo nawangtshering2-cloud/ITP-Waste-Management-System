@@ -25,12 +25,7 @@ const Navbar = () => {
         </Link>
 
         {token && (
-          <button
-            className="navbar-toggler border-0 ms-auto"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarContent"
-          >
+          <button className="navbar-toggler border-0 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
             <span className="navbar-toggler-icon"></span>
           </button>
         )}
@@ -39,43 +34,33 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
               <li className="nav-item">
-                <Link
-                  className={`nav-link px-3 rounded-3 fw-medium ${isActive('/dashboard') ? 'bg-success text-white active' : 'text-light'}`}
-                  to="/dashboard"
-                >
+                <Link className={`nav-link px-3 rounded-3 fw-medium ${isActive('/dashboard') ? 'bg-success text-white active' : 'text-light'}`} to="/dashboard">
                   <i className="bi bi-speedometer2 me-2"></i>Dashboard
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className={`nav-link px-3 rounded-3 fw-medium ${isActive('/request') ? 'bg-success text-white active' : 'text-light'}`}
-                  to="/request"
-                >
+                <Link className={`nav-link px-3 rounded-3 fw-medium ${isActive('/request') ? 'bg-success text-white active' : 'text-light'}`} to="/request">
                   <i className="bi bi-plus-circle me-2"></i>Request Pickup
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className={`nav-link px-3 rounded-3 fw-medium ${isActive('/myrequests') ? 'bg-success text-white active' : 'text-light'}`}
-                  to="/myrequests"
-                >
+                <Link className={`nav-link px-3 rounded-3 fw-medium ${isActive('/myrequests') ? 'bg-success text-white active' : 'text-light'}`} to="/myrequests">
                   <i className="bi bi-clock-history me-2"></i>My Requests
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className={`nav-link px-3 rounded-3 fw-medium ${isActive('/centres') ? 'bg-success text-white active' : 'text-light'}`}
-                  to="/centres"
-                >
+                <Link className={`nav-link px-3 rounded-3 fw-medium ${isActive('/centres') ? 'bg-success text-white active' : 'text-light'}`} to="/centres">
                   <i className="bi bi-geo-alt me-2"></i>Collection Centres
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className={`nav-link px-3 rounded-3 fw-medium ${isActive('/awareness') ? 'bg-success text-white active' : 'text-light'}`} to="/awareness">
+                  <i className="bi bi-lightbulb me-2"></i>Awareness
                 </Link>
               </li>
               {user.role === 'admin' && (
                 <li className="nav-item">
-                  <Link
-                    className={`nav-link px-3 rounded-3 fw-bold ${isActive('/admin') ? 'bg-warning text-dark active' : 'text-warning'}`}
-                    to="/admin"
-                  >
+                  <Link className={`nav-link px-3 rounded-3 fw-bold ${isActive('/admin') ? 'bg-warning text-dark active' : 'text-warning'}`} to="/admin">
                     <i className="bi bi-shield-lock me-2"></i>Admin Panel
                   </Link>
                 </li>
@@ -99,12 +84,8 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link className="btn btn-outline-light btn-sm rounded-pill px-3 py-1.5 fw-medium me-1" to="/login">
-                Login
-              </Link>
-              <Link className="btn btn-emerald btn-sm rounded-pill px-3 py-1.5 fw-semibold" to="/register">
-                Register
-              </Link>
+              <Link className="btn btn-outline-light btn-sm rounded-pill px-3 py-1.5 fw-medium me-1" to="/login">Login</Link>
+              <Link className="btn btn-emerald btn-sm rounded-pill px-3 py-1.5 fw-semibold" to="/register">Register</Link>
             </>
           )}
         </div>
