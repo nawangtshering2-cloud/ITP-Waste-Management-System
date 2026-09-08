@@ -1,5 +1,7 @@
 BACKEND/node_modules/
 frontend/node_modules/
+package.json
+.env
 BACKEND/.env
 frontend/.env
 frontend/.env.local
